@@ -168,10 +168,14 @@
         }
 
         /* Buttons */
-        #reset, #newbtn {
+        .button-group {
+            display: flex;
+            gap: 1rem;
+        }
+
+        #reset, #newbtn, #resetScore {
             padding: 1rem 2rem;
             font-size: 1.2rem;
-            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
             color: white;
             border-radius: 2rem;
             border: none;
@@ -179,13 +183,25 @@
             transition: all 0.3s ease;
         }
 
-        #reset:hover, #newbtn:hover {
+        #reset, #newbtn {
+            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+        }
+
+        #resetScore {
+            background: linear-gradient(135deg, #4facfe, #00f2fe);
+        }
+
+        #reset:hover, #newbtn:hover, #resetScore:hover {
             transform: scale(1.05);
             box-shadow: 0 0 1.5rem rgba(255, 107, 107, 0.5);
         }
 
-        #reset:active, #newbtn:active {
+        #reset:active, #newbtn:active, #resetScore:active {
             transform: scale(0.95);
+        }
+
+        #resetScore:hover {
+            box-shadow: 0 0 1.5rem rgba(79, 172, 254, 0.5);
         }
 
         /* Messages */
@@ -361,7 +377,10 @@
                 <button class="box"></button>
                 <button class="box"></button>
             </div>
-            <button id="reset">Reset Game</button>
+            <div class="button-group">
+                <button id="reset">Reset Game</button>
+                <button id="resetScore">Reset Score</button>
+            </div>
         </div>
     </main>
 
@@ -385,6 +404,7 @@
         const boxes = document.querySelectorAll(".box");
         const reset = document.querySelector("#reset");
         const newbtn = document.querySelector("#newbtn");
+        const resetScore = document.querySelector("#resetScore");
         const msgcontainer = document.querySelector(".msg-container");
         const msg = document.querySelector("#msg");
         const drawMsg = document.querySelector("#draw-msg");
@@ -482,8 +502,18 @@
             });
         });
 
+        const resetScoreHandler = () => {
+            if (confirm("Are you sure you want to reset the scores?")) {
+                score.X = 0;
+                score.O = 0;
+                updateScoreboard();
+                clickSound.play();
+            }
+        };
+
         reset.addEventListener("click", resetGame);
         newbtn.addEventListener("click", resetGame);
+        resetScore.addEventListener("click", resetScoreHandler);
 
         updateScoreboard();
     </script>
