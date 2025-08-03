@@ -1,343 +1,331 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tic Tac Toe - Ultimate Edition</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tic Tac Toe - Ultimate Edition</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-        body {
-            font-family: 'Poppins', sans-serif;
-            background: linear-gradient(135deg, #6e45e2, #88d3ce);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-        }
+    html, body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #6e45e2, #88d3ce);
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      overflow-x: hidden;
+    }
 
-        /* Header Styles */
-        header {
-            background: rgba(30, 30, 46, 0.95);
-            padding: 1rem 2rem;
-            color: white;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
+    header {
+      background: rgba(30, 30, 46, 0.95);
+      padding: 1rem 2rem;
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
 
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            background: linear-gradient(45deg, #ff6b6b, #ff8e53);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      background: linear-gradient(45deg, #ff6b6b, #ff8e53);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
 
-        nav a {
-            color: white;
-            text-decoration: none;
-            margin: 0 1rem;
-            font-size: 1rem;
-            transition: color 0.3s ease;
-        }
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 1rem;
+      font-size: 1rem;
+      transition: color 0.3s ease;
+    }
 
-        nav a:hover {
-            color: #ff6b6b;
-        }
+    nav a:hover {
+      color: #ff6b6b;
+    }
 
-        /* Main Game Container */
-        .container {
-            flex: 1;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            gap: 2rem;
-            padding: 2rem;
-        }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
 
-        .game-title {
-            font-size: 3rem;
-            color: white;
-            text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-            animation: pulse 2s infinite;
-        }
+    .container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 2rem;
+      padding: 2rem;
+    }
 
-        /* Game Board */
-        .game {
-            height: 60vmin;
-            width: 60vmin;
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            grid-template-rows: repeat(3, 1fr);
-            gap: 1rem;
-            border: 0.4rem solid rgba(255, 255, 255, 0.6);
-            border-radius: 1.5rem;
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 0 2rem rgba(0, 0, 0, 0.3);
-            padding: 1rem;
-        }
+    .game-title {
+      font-size: 3rem;
+      color: white;
+      text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      animation: pulse 2s infinite;
+      text-align: center;
+    }
 
-        .box {
-            aspect-ratio: 1;
-            width: 100%;
-            border-radius: 1rem;
-            border: 3px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
-            font-size: 8vmin;
-            font-weight: bold;
-            color: #ff6b6b;
-            background-color: rgba(255, 255, 255, 0.95);
-            transition: all 0.3s ease;
-            cursor: pointer;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            position: relative;
-            overflow: hidden;
-        }
+    .player-input {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
 
-        .box:hover {
-            transform: scale(0.98);
-            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
-            color: white;
-            border-color: rgba(255, 255, 255, 0.4);
-        }
+    .player-input input {
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      border: none;
+      font-size: 1rem;
+      width: 150px;
+    }
 
-        .box.tapped {
-            animation: bounce 0.3s ease;
-            background: linear-gradient(135deg, #4facfe, #00f2fe) !important;
-            color: white;
-            border-color: rgba(255, 255, 255, 0.6);
-            box-shadow: 0 0 1.5rem rgba(79, 172, 254, 0.4);
-        }
+    .scoreboard {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      width: 60vmin;
+      background: rgba(255, 255, 255, 0.2);
+      padding: 1rem;
+      border-radius: 1rem;
+      color: white;
+      font-size: 1.2rem;
+    }
 
-        .box::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0));
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
+    .game {
+      height: 60vmin;
+      width: 60vmin;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      gap: 1rem;
+      border: 0.4rem solid rgba(255, 255, 255, 0.6);
+      border-radius: 1.5rem;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 0 2rem rgba(0, 0, 0, 0.3);
+      padding: 1rem;
+    }
 
-        .box:hover::before {
-            opacity: 1;
-        }
+    .box {
+      aspect-ratio: 1;
+      width: 100%;
+      border-radius: 1rem;
+      border: 3px solid rgba(255, 255, 255, 0.2);
+      font-size: 8vmin;
+      font-weight: bold;
+      color: #ff6b6b;
+      background-color: rgba(255, 255, 255, 0.95);
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: all 0.3s ease;
+    }
 
-        /* Scoreboard and Player Input */
-        .scoreboard {
-            display: flex;
-            justify-content: space-between;
-            width: 60vmin;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 1rem;
-            border-radius: 1rem;
-            color: white;
-            font-size: 1.2rem;
-        }
+    .box:hover {
+      transform: scale(0.98);
+      background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+      color: white;
+      border-color: rgba(255, 255, 255, 0.4);
+    }
 
-        .player-input {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1rem;
-        }
+    .box.tapped {
+      animation: bounce 0.3s ease;
+      background: linear-gradient(135deg, #4facfe, #00f2fe) !important;
+      color: white;
+      border-color: rgba(255, 255, 255, 0.6);
+      box-shadow: 0 0 1.5rem rgba(79, 172, 254, 0.4);
+    }
 
-        .player-input input {
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            border: none;
-            font-size: 1rem;
-            width: 150px;
-        }
+    .button-group {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+    }
 
-        /* Buttons */
-        .button-group {
-            display: flex;
-            gap: 1rem;
-        }
+    #reset, #newbtn, #resetScore {
+      padding: 1rem 2rem;
+      font-size: 1.1rem;
+      color: white;
+      border-radius: 2rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
 
-        #reset, #newbtn, #resetScore {
-            padding: 1rem 2rem;
-            font-size: 1.2rem;
-            color: white;
-            border-radius: 2rem;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
+    #reset, #newbtn {
+      background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+    }
 
-        #reset, #newbtn {
-            background: linear-gradient(135deg, #ff6b6b, #ff8e53);
-        }
+    #resetScore {
+      background: linear-gradient(135deg, #4facfe, #00f2fe);
+    }
 
-        #resetScore {
-            background: linear-gradient(135deg, #4facfe, #00f2fe);
-        }
+    #reset:hover, #newbtn:hover, #resetScore:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 1.5rem rgba(0, 0, 0, 0.3);
+    }
 
-        #reset:hover, #newbtn:hover, #resetScore:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 1.5rem rgba(255, 107, 107, 0.5);
-        }
+    #msg {
+      color: #ffeb3b;
+      font-size: 5rem;
+      font-weight: 700;
+      text-shadow: 0 0 1.5rem rgba(255, 255, 255, 0.8);
+      animation: glow 1.5s infinite alternate;
+      text-align: center;
+    }
 
-        #reset:active, #newbtn:active, #resetScore:active {
-            transform: scale(0.95);
-        }
+    #draw-msg {
+      color: #ff5722;
+      font-size: 4rem;
+      font-weight: 700;
+      text-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: all 0.5s ease-in-out;
+    }
 
-        #resetScore:hover {
-            box-shadow: 0 0 1.5rem rgba(79, 172, 254, 0.5);
-        }
+    #draw-msg.show {
+      top: 50%;
+      opacity: 1;
+    }
 
-        /* Messages */
-        #msg {
-            color: #ffeb3b;
-            font-size: 5rem;
-            font-weight: 700;
-            text-shadow: 0 0 1.5rem rgba(255, 255, 255, 0.8);
-            animation: glow 1.5s infinite alternate;
-        }
+    .msg-container {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 2rem;
+      z-index: 100;
+    }
 
-        #draw-msg {
-            color: #ff5722;
-            font-size: 4rem;
-            font-weight: 700;
-            text-shadow: 0 0 1rem rgba(0, 0, 0, 0.5);
-            position: absolute;
-            top: 100%;
-            left: 50%;
-            transform: translateX(-50%);
-            opacity: 0;
-            transition: all 0.5s ease-in-out;
-        }
+    .hide {
+      display: none;
+    }
 
-        #draw-msg.show {
-            top: 50%;
-            opacity: 1;
-        }
+    footer {
+      background: rgba(30, 30, 46, 0.95);
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 0.9rem;
+    }
 
-        .msg-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            gap: 2rem;
-            z-index: 100;
-        }
+    footer a {
+      color: #ff6b6b;
+      text-decoration: none;
+      margin: 0 0.5rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 2rem;
+      background: rgba(255, 107, 107, 0.1);
+      transition: all 0.3s ease;
+    }
 
-        .hide {
-            display: none;
-        }
+    footer a:hover {
+      color: #ff8e53;
+      background: rgba(255, 107, 107, 0.2);
+      transform: translateY(-2px);
+    }
 
-        /* Footer Styles */
-        footer {
-            background: rgba(30, 30, 46, 0.95);
-            color: white;
-            padding: 1rem;
-            text-align: center;
-            font-size: 0.9rem;
-        }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
 
-        footer a {
-            color: #ff6b6b;
-            text-decoration: none;
-            margin: 0 0.5rem;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.5rem 1rem;
-            border-radius: 2rem;
-            background: rgba(255, 107, 107, 0.1);
-            transition: all 0.3s ease;
-        }
+    @keyframes glow {
+      from { text-shadow: 0 0 1rem rgba(255, 255, 255, 0.8); }
+      to { text-shadow: 0 0 2rem rgba(255, 255, 255, 1); }
+    }
 
-        footer a:hover {
-            color: #ff8e53;
-            background: rgba(255, 107, 107, 0.2);
-            transform: translateY(-2px);
-        }
+    @keyframes bounce {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
 
-        footer .social-links {
-            margin-top: 1rem;
-        }
+    @media (max-width: 768px) {
+      .game {
+        width: 80vmin;
+        height: 80vmin;
+      }
 
-        footer svg {
-            transition: transform 0.3s ease;
-        }
+      .scoreboard {
+        width: 80vmin;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+      }
 
-        footer a:hover svg {
-            transform: rotate(360deg);
-        }
+      .box {
+        font-size: 10vmin;
+      }
 
-        /* Animations */
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
+      #msg {
+        font-size: 3rem;
+      }
 
-        @keyframes glow {
-            from { text-shadow: 0 0 1rem rgba(255, 255, 255, 0.8); }
-            to { text-shadow: 0 0 2rem rgba(255, 255, 255, 1); }
-        }
+      #draw-msg {
+        font-size: 2.5rem;
+      }
+    }
 
-        @keyframes bounce {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
-        }
+    @media (max-width: 480px) {
+      .game-title {
+        font-size: 2rem;
+      }
 
-        /* Responsive Design */
-        @media (max-width: 600px) {
-            .game {
-                height: 80vmin;
-                width: 80vmin;
-            }
+      .box {
+        font-size: 11vmin;
+      }
 
-            .box {
-                height: 24vmin;
-                width: 24vmin;
-                font-size: 10vmin;
-            }
+      .scoreboard {
+        width: 90vmin;
+        font-size: 1rem;
+      }
 
-            .game-title {
-                font-size: 2rem;
-            }
+      .button-group button {
+        font-size: 1rem;
+        padding: 0.8rem 1.5rem;
+      }
 
-            #msg {
-                font-size: 3rem;
-            }
+      .player-input input {
+        width: 100%;
+        max-width: 220px;
+      }
 
-            #draw-msg {
-                font-size: 2.5rem;
-            }
-
-            .player-input input {
-                width: 120px;
-                font-size: 0.9rem;
-            }
-        }
-    </style>
+      footer {
+        font-size: 0.75rem;
+      }
+    }
+  </style>
 </head>
 <body>
     <header>
